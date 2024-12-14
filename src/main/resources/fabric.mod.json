@@ -2,25 +2,26 @@
   "schemaVersion": 1,
   "id": "cmd-confirm",
   "version": "${version}",
-
   "name": "CmdConfirm",
   "description": "",
   "authors": [],
-  "contact": {},
-
+  "contact": {
+    "repo": "https://github.com/vatinmc/cmd-confirm"
+  },
   "license": "All-Rights-Reserved",
   "icon": "assets/cmd-confirm/icon.png",
-
   "environment": "client",
-  "entrypoints": {},
-
-      "mixins": [
-        "cmd-confirm.mixins.json"
-      ],
-
+  "entrypoints": {
+    "client": [
+      "de.vatinmc.cmdconfirm.client.CmdConfirmClient"
+    ]
+  },
+  "mixins": [
+    "cmd-confirm.mixins.json"
+  ],
   "depends": {
     "fabricloader": ">=${loader_version}",
-        "fabric": "*",
+    "fabric": "*",
     "minecraft": "${minecraft_version}"
   }
 }
