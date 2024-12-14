@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "cmd-confirm",
+  "version": "${version}",
+
+  "name": "CmdConfirm",
+  "description": "",
+  "authors": [],
+  "contact": {},
+
+  "license": "All-Rights-Reserved",
+  "icon": "assets/cmd-confirm/icon.png",
+
+  "environment": "client",
+  "entrypoints": {},
+
+      "mixins": [
+        "cmd-confirm.mixins.json"
+      ],
+
+  "depends": {
+    "fabricloader": ">=${loader_version}",
+        "fabric": "*",
+    "minecraft": "${minecraft_version}"
+  }
+}
