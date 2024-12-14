@@ -3,8 +3,8 @@
   "id": "cmd-confirm",
   "version": "${version}",
   "name": "CmdConfirm",
-  "description": "",
-  "authors": [],
+  "description": "Requests confirmation, when using commands.",
+  "authors": [ "VatinMC" ],
   "contact": {
     "repo": "https://github.com/vatinmc/cmd-confirm"
   },
