@@ -33,7 +33,7 @@ public class CmdConfirmClient implements ClientModInitializer {
     }
 
     public static void reloadConfig(){
-        String dirPath = "mods/" + MOD_ID;
+        String dirPath = "config/" + MOD_ID;
         try {
             File dir = new File(dirPath);
             if(dir.mkdir()){
