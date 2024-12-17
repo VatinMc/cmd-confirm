@@ -25,7 +25,7 @@ public class CmdConfirmClient implements ClientModInitializer {
     public void onInitializeClient() {
         reloadConfig();
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
-                dispatcher.register(ClientCommandManager.literal("CCCreload").executes(context -> {
+                dispatcher.register(ClientCommandManager.literal("cccreload").executes(context -> {
             reloadConfig();
             context.getSource().sendFeedback(Text.literal("[" + MOD_ID + "] Config loaded"));
             return 1;
