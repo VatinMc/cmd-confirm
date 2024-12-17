@@ -9,7 +9,7 @@ Fabric-API: 0.102.0+1.21, 0.112.0+1.21.4
   
 Changelog:  
 **v1.0.1** 
-- config file is now located in `.minecraft/config/cmd-config/config.txt`  
+- config file is now located in `.minecraft/config/cmd-confirm/config.txt`  
 - command `/cccreload` is now lowercase  
   
 **v1.0.0**  
