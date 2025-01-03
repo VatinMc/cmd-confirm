@@ -4,8 +4,8 @@ Cmds-file is located at "/config/cmd-confirm/cmds.txt". Commands "`/kill`", "`/k
 
 Use command "`/ccconfig`" to add and remove commands ingame.
   
-Minecraft versions: 1.21, 1.21.4  
-Fabric-API: 0.102.0+1.21, 0.112.0+1.21.4  
+Minecraft version: 1.21.4  
+Fabric-API: 0.112.0+1.21.4  
   
   
 ![Config Screen to add and remove commands](https://cdn.modrinth.com/data/c5VRfEYd/images/e2064ac2c315020f1f34beeedf72a95e5c976152.png)
