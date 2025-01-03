@@ -4,6 +4,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
@@ -72,7 +73,7 @@ public class ConfirmationScreen extends Screen {
         context.fill(x1 + border, y1 + border, x2 - border,y2 - border,0xffffffff);//white
 
         Identifier texture = Identifier.of("minecraft", "textures/block/obsidian.png");
-        context.drawTexture(texture, x1 + border, y1 + border, 16,16, x2-x1-border*2, y2-y1-border*2, 8,8);
+        context.drawTexture(RenderLayer::getGuiTextured, texture, x1 + border, y1 + border, 16,16, x2-x1-border*2, y2-y1-border*2, 8,8);
     }
 
     @Override

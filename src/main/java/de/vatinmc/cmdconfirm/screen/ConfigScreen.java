@@ -7,6 +7,7 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.render.RenderLayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
@@ -86,7 +87,7 @@ public class ConfigScreen extends Screen {
         context.fill(x1 + border, y1 + border, x2 - border,y2 - border,0xffffffff);//white
 
         Identifier texture = Identifier.of("minecraft", "textures/block/deepslate.png");
-        context.drawTexture(texture, x1 +border,y1+border,0,0,x2-5-border*2,y2-5-border*2, 16, 16);
+        context.drawTexture(RenderLayer::getGuiTextured, texture, x1 +border,y1+border,0,0,x2-5-border*2,y2-5-border*2, 16, 16);
     }
 
     @Override
