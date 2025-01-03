@@ -6,7 +6,9 @@
   "description": "Requests confirmation, when using commands.",
   "authors": [ "VatinMC" ],
   "contact": {
-    "repo": "https://github.com/vatinmc/cmd-confirm"
+    "repo": "https://github.com/vatinmc/cmd-confirm",
+    "homepage": "https://github.com/vatinmc/cmd-confirm",
+    "issues": "https://github.com/VatinMc/cmd-confirm/issues"
   },
   "license": "All-Rights-Reserved",
   "icon": "assets/cmd-confirm/icon.png",
@@ -14,7 +16,8 @@
   "entrypoints": {
     "client": [
       "de.vatinmc.cmdconfirm.client.CmdConfirmClient"
-    ]
+    ],
+    "modmenu": [ "de.vatinmc.cmdconfirm.modmenu.ModMenuImpl" ]
   },
   "mixins": [
     "cmd-confirm.mixins.json"
@@ -23,5 +26,14 @@
     "fabricloader": ">=${loader_version}",
     "fabric": "*",
     "minecraft": "${minecraft_version}"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.source": "https://github.com/VatinMc/cmd-confirm/",
+        "modmenu.modrinth": "https://modrinth.com/mod/cmd-confirm",
+        "modmenu.reddit": "https://www.reddit.com/user/VatinMC/"
+      }
+    }
   }
 }
