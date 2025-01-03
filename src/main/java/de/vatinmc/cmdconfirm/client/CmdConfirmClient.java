@@ -1,9 +1,11 @@
 package de.vatinmc.cmdconfirm.client;
 
+import de.vatinmc.cmdconfirm.screen.ConfigScreen;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandManager;
 import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
-import net.minecraft.text.Text;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.minecraft.client.MinecraftClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,49 +21,120 @@ import java.util.Scanner;
 public class CmdConfirmClient implements ClientModInitializer {
     public static final String MOD_ID = "cmd-confirm";
     public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-    public static List<String> cmds = new ArrayList<>();
+    public static final List<String> cmds = new ArrayList<>();
+    private static final List<String> cmdsPre = new ArrayList<>();
+    private static final String dirPath = "config/" + MOD_ID;
+    private static final String filePath = dirPath + "/cmds.txt";
 
     @Override
     public void onInitializeClient() {
-        reloadConfig();
+        initCmdsPre();
+        handleFormerConfigFile();
+        loadCmdsFile();
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) ->
-                dispatcher.register(ClientCommandManager.literal("cccreload").executes(context -> {
-            reloadConfig();
-            context.getSource().sendFeedback(Text.literal("[" + MOD_ID + "] Config loaded"));
+                dispatcher.register(ClientCommandManager.literal("ccconfig").executes(context -> {
+                    MinecraftClient client = context.getSource().getClient();
+                    client.send(() -> client.setScreen(new ConfigScreen()));
             return 1;
         })));
+        onClose();
     }
 
-    public static void reloadConfig(){
-        String dirPath = "config/" + MOD_ID;
+    private void initCmdsPre() {
+        cmdsPre.add("kill");
+        cmdsPre.add("kill @e");
+        cmdsPre.add("kill @p");
+    }
+
+    private void onClose(){
+        ClientLifecycleEvents.CLIENT_STOPPING.register((client) -> saveCmdsFile());
+    }
+
+    public static void saveCmdsFile(){
+        try {
+            File dir = new File(dirPath);
+            if(dir.mkdir()){
+                LOGGER.info("Directory {} created. Where did it go?", dir.getAbsolutePath());
+            }
+            try {
+                File file = new File(filePath);
+                Path filePath = Path.of(file.getAbsolutePath());
+
+                if(!file.delete())
+                    LOGGER.error("deleting outdated cmds file failed; located at: {}", filePath);
+                if(file.createNewFile()){
+                    LOGGER.info("cmds file {} updated.", file.getAbsolutePath());
+
+                    for(String cmd : cmds){
+                        String line = cmd + "\n";
+                        Files.write(filePath, line.getBytes(), StandardOpenOption.APPEND);
+                    }
+                }
+            } catch (IOException e) {
+                LOGGER.error("Updating cmds file failed.");
+                throw new RuntimeException(e);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void loadCmdsFile(){
         try {
             File dir = new File(dirPath);
             if(dir.mkdir()){
                 LOGGER.info("Directory {} created.", dir.getAbsolutePath());
             }
 
-            String cfgPath = dirPath + "/config.txt";
             try {
-                File config = new File(cfgPath);
-                if(config.createNewFile()){
-                    LOGGER.info("Config file {} created.", config.getAbsolutePath());
-                    Path configPath = Path.of(config.getAbsolutePath());
-                    Files.write(configPath, "kill".getBytes(), StandardOpenOption.APPEND);
-                    Files.write(configPath, "\nkill @p".getBytes(), StandardOpenOption.APPEND);
-                    Files.write(configPath, "\nkill @e".getBytes(), StandardOpenOption.APPEND);
-                    cmds.add("kill");
-                    cmds.add("kill @p");
-                    cmds.add("kill @e");
+                File file = new File(filePath);
+                if(file.createNewFile()){
+                    LOGGER.info("cmds file {} created.", file.getAbsolutePath());
+                    Path filePath = Path.of(file.getAbsolutePath());
+                    for (String cmd : cmdsPre){
+                        String line = cmd + "\n";
+                        Files.write(filePath, line.getBytes(), StandardOpenOption.APPEND);
+                    }
+                    cmds.addAll(cmdsPre);
                 } else {
                     cmds.clear();
-                    Scanner cfgScanner = new Scanner(config);
-                    while (cfgScanner.hasNextLine()){
-                        String cmd = cfgScanner.nextLine();
+                    Scanner fileScanner = new Scanner(file);
+                    while (fileScanner.hasNextLine()){
+                        String cmd = fileScanner.nextLine();
                         cmds.add(cmd);
                     }
+                    fileScanner.close();
                 }
             } catch (IOException e) {
-                LOGGER.error("Loading/Creating config file failed.");
+                LOGGER.error("Loading/Creating cmds file failed.");
+                throw new RuntimeException(e);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void handleFormerConfigFile(){
+        try {
+            File dir = new File(dirPath);
+            if(!dir.exists()) return;
+            try {
+                String configPath = dirPath + "/config.txt";
+                File config = new File(configPath);
+                if(!config.exists()) return;
+
+                cmdsPre.clear();
+                Scanner cfgScanner = new Scanner(config);
+                while(cfgScanner.hasNextLine()){
+                    String cmd = cfgScanner.nextLine();
+                    if(!cmd.isEmpty())
+                        cmdsPre.add(cmd);
+                }
+                cfgScanner.close();
+                if(!config.delete())
+                    LOGGER.error("Deleting former config file failed; located at: {}", configPath);
+            } catch (IOException e) {
+                LOGGER.error("Loading former config file failed.");
                 throw new RuntimeException(e);
             }
         } catch (Exception e) {
