@@ -1,13 +1,28 @@
 # cmd-confirm
 Minecraft Fabric Mod. Requests confirmation, when using commands.  
-Config-file is located at "/config/cmd-confirm/config.txt". Commands "/kill", "/kill @p" and "kill @e" are pre defined as example. Delete them, if you don't need them.  
-
-Use command "/cccreload" to reload config ingame.
+Cmds-file is located at "/config/cmd-confirm/cmds.txt". Commands "`/kill`", "`/kill @p`" and "`kill @e`" are pre defined as example. Delete them, if you don't need them.  
+  
+Use command "`/ccconfig`" to add and remove commands ingame.
   
 Minecraft versions: 1.21
 Fabric-API: 0.102.0+1.21
   
+  
+![Config Screen to add and remove commands](https://cdn.modrinth.com/data/c5VRfEYd/images/e2064ac2c315020f1f34beeedf72a95e5c976152.png)
 Changelog:  
+**v1.1.0** 
+- changed commands
+  - `/ccconfig` added
+  - `/cccreload` removed
+- ConfigScreen added, to add and remove commands via gui
+- Mod Menu support to access ConfigScreen without command
+- ConfirmationScreen changed
+  - added texture behind confirmation-message
+  - set button text using translation keys
+  - button width is smaller now
+- filename set to cmds.txt
+  - auto import from last version
+   
 **v1.0.1** 
 - config file is now located in `.minecraft/config/cmd-confirm/config.txt`  
 - command `/cccreload` is now lowercase  
